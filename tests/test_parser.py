@@ -1,6 +1,6 @@
 import unittest
 
-from Proyecto1.parser import AnalizadorHorario
+from codigo.parser import AnalizadorHorario
 
 
 FUENTE = '''HORARIO {
@@ -25,7 +25,19 @@ class AnalizadorHorarioTest(unittest.TestCase):
         self.assertEqual(len(horario.choques), 1)
         self.assertEqual(horario.choques[0].recurso, "CATEDRATICO")
 
+    def test_error_lexico_en_atributo_no_desplaza_los_valores_siguientes(self) -> None:
+        fuente = '''HORARIO {
+CLASES {
+clase: "LFP-0796" con "DOC-001" en "A-101" [dia: FERIADO, inicio: 13:00, fin: 14:40, seccion: "A"],
+};
+};'''
+        parser, lexer = AnalizadorHorario.desde_fuente(fuente)
+        horario = parser.analizar()
+        self.assertEqual(len(lexer.errores.errores), 1)
+        self.assertEqual(horario.clases[0].dia, "")
+        self.assertEqual(horario.clases[0].inicio, "13:00")
+        self.assertEqual(horario.clases[0].fin, "14:40")
+
 
 if __name__ == "__main__":
     unittest.main()
-

@@ -40,6 +40,10 @@ class AnalizadorHorario:
         while self._actual().tipo in (TipoToken.COMENTARIO_LINEA, TipoToken.ERROR_LEXICO):
             self._avanzar()
 
+    def _limpiar_comentarios(self) -> None:
+        while self._actual().tipo is TipoToken.COMENTARIO_LINEA:
+            self._avanzar()
+
     def _es(self, tipo: TipoToken | None = None, lexema: str | None = None) -> bool:
         self._limpiar()
         token = self._actual()
@@ -60,9 +64,12 @@ class AnalizadorHorario:
         return None
 
     def _valor(self) -> str:
-        self._limpiar()
+        self._limpiar_comentarios()
         token = self._actual()
         if token.tipo is TipoToken.EOF:
+            return ""
+        if token.tipo is TipoToken.ERROR_LEXICO:
+            self._avanzar()
             return ""
         self._avanzar()
         return quitar_comillas(token.lexema)
@@ -71,15 +78,21 @@ class AnalizadorHorario:
         valores: dict[str, str] = {}
         if self._aceptar(TipoToken.SIMBOLO, "[") is None:
             return valores
-        while not self._es(TipoToken.EOF) and not self._es(TipoToken.SIMBOLO, "]"):
+        while True:
+            self._limpiar_comentarios()
+            if self._actual().tipo is TipoToken.ERROR_LEXICO:
+                self._avanzar()
+                continue
+            if self._actual().tipo is TipoToken.EOF or self._es(TipoToken.SIMBOLO, "]"):
+                break
             atributo = self._aceptar(TipoToken.ATRIBUTO)
             if atributo is None:
                 self._avanzar()
                 continue
-            self._aceptar(TipoToken.SIMBOLO, ":")
+            self._requerir(TipoToken.SIMBOLO, ":")
             valores[atributo.lexema] = self._valor()
             self._aceptar(TipoToken.SIMBOLO, ",")
-        self._aceptar(TipoToken.SIMBOLO, "]")
+        self._requerir(TipoToken.SIMBOLO, "]")
         return valores
 
     def _separador(self) -> None:
@@ -88,7 +101,7 @@ class AnalizadorHorario:
 
     def _curso(self, horario: Horario) -> None:
         self._avanzar()
-        self._aceptar(TipoToken.SIMBOLO, ":")
+        self._requerir(TipoToken.SIMBOLO, ":")
         nombre = self._valor()
         atributos = self._atributos()
         try:
@@ -99,7 +112,7 @@ class AnalizadorHorario:
 
     def _catedratico(self, horario: Horario) -> None:
         self._avanzar()
-        self._aceptar(TipoToken.SIMBOLO, ":")
+        self._requerir(TipoToken.SIMBOLO, ":")
         nombre = self._valor()
         atributos = self._atributos()
         horario.catedraticos.append(Catedratico(nombre, atributos.get("codigo", ""), atributos.get("categoria", "")))
@@ -107,7 +120,7 @@ class AnalizadorHorario:
 
     def _aula(self, horario: Horario) -> None:
         self._avanzar()
-        self._aceptar(TipoToken.SIMBOLO, ":")
+        self._requerir(TipoToken.SIMBOLO, ":")
         codigo = self._valor()
         atributos = self._atributos()
         try:
@@ -119,11 +132,11 @@ class AnalizadorHorario:
 
     def _clase(self, horario: Horario) -> None:
         self._avanzar()
-        self._aceptar(TipoToken.SIMBOLO, ":")
+        self._requerir(TipoToken.SIMBOLO, ":")
         curso = self._valor()
-        self._aceptar(TipoToken.RELACION, "con")
+        self._requerir(TipoToken.RELACION, "con")
         catedratico = self._valor()
-        self._aceptar(TipoToken.RELACION, "en")
+        self._requerir(TipoToken.RELACION, "en")
         aula = self._valor()
         atributos = self._atributos()
         horario.clases.append(Clase(curso, catedratico, aula, atributos.get("dia", ""), atributos.get("inicio", ""), atributos.get("fin", ""), atributos.get("seccion", "")))
@@ -138,12 +151,12 @@ class AnalizadorHorario:
                 metodo()
             else:
                 self._avanzar()
-        self._aceptar(TipoToken.SIMBOLO, "}")
+        self._requerir(TipoToken.SIMBOLO, "}")
 
     def analizar(self) -> Horario:
         horario = Horario()
-        self._aceptar(TipoToken.HORARIO)
-        self._aceptar(TipoToken.SIMBOLO, "{")
+        self._requerir(TipoToken.HORARIO)
+        self._requerir(TipoToken.SIMBOLO, "{")
         while not self._es(TipoToken.EOF) and not self._es(TipoToken.SIMBOLO, "}"):
             if self._es(TipoToken.CURSOS):
                 self._seccion(TipoToken.CURSOS, TipoToken.ELEMENTO, lambda: self._curso(horario))
@@ -155,7 +168,6 @@ class AnalizadorHorario:
                 self._seccion(TipoToken.CLASES, TipoToken.ELEMENTO, lambda: self._clase(horario))
             else:
                 self._avanzar()
-        self._aceptar(TipoToken.SIMBOLO, "}")
+        self._requerir(TipoToken.SIMBOLO, "}")
         horario.detectar_choques()
         return horario
-

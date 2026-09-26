@@ -1,7 +1,7 @@
 import unittest
 
-from Proyecto1.lexer import AnalizadorLexico
-from Proyecto1.token import TipoToken
+from codigo.lexer import AnalizadorLexico
+from codigo.token import TipoToken
 
 
 class AnalizadorLexicoTest(unittest.TestCase):
@@ -37,6 +37,13 @@ class AnalizadorLexicoTest(unittest.TestCase):
         lexer = AnalizadorLexico("dia: DOMINGO")
         lexer.analizar()
         self.assertEqual(lexer.errores.errores[0].tipo, "DIA_NO_RECONOCIDO")
+
+    def test_error_de_valor_no_contamina_el_atributo_siguiente(self) -> None:
+        lexer = AnalizadorLexico("dia: DOMINGO inicio: 07:00")
+        tokens = lexer.analizar()
+        tipos = [token.tipo for token in tokens]
+        self.assertIn(TipoToken.ATRIBUTO, tipos)
+        self.assertEqual(tokens[-2].tipo, TipoToken.HORA)
 
 
 if __name__ == "__main__":

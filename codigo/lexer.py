@@ -94,6 +94,7 @@ class AnalizadorLexico:
         self._avanzar()
         while self._actual() not in ("", "\n", '"'):
             self._avanzar()
+        self.atributo_pendiente = ""
         if self._actual() == '"':
             self._avanzar()
             return self._token(self.fuente[inicio:self.indice], TipoToken.CADENA, linea, columna)
@@ -106,6 +107,7 @@ class AnalizadorLexico:
         cantidad = 0
         while self._es_digito(self._actual()):
             cantidad += 1; self._avanzar()
+        self.atributo_pendiente = ""
         if cantidad == 2 and self._actual() == ":":
             self._avanzar()
             minutos_inicio = self.indice
@@ -176,6 +178,7 @@ class AnalizadorLexico:
         if self._es_letra(actual):
             return self._leer_palabra_o_codigo(linea, columna)
         self._avanzar()
+        self.atributo_pendiente = ""
         return self._error_token(actual, "CARACTER_NO_RECONOCIDO", f"Carácter no reconocido: '{actual}' en línea {linea}, columna {columna}", linea, columna)
 
     def analizar(self) -> list[Token]:

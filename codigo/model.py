@@ -12,7 +12,10 @@ def quitar_comillas(valor: str) -> str:
 def minutos(hora: str) -> int:
     if len(hora) != 5 or hora[2] != ":":
         return 0
-    return int(hora[:2]) * 60 + int(hora[3:])
+    try:
+        return int(hora[:2]) * 60 + int(hora[3:])
+    except ValueError:
+        return 0
 
 
 @dataclass
@@ -88,4 +91,3 @@ class Horario:
                     encontrados.append(Choque(primera, segunda, "AULA"))
         self.choques = encontrados
         return encontrados
-

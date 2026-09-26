@@ -9,7 +9,7 @@ tolerante, detección de choques, una interfaz Tkinter y reportes HTML.
 No requiere paquetes externos. Desde la raíz del repositorio:
 
 ```powershell
-python -m Proyecto1.main Proyecto1/ejemplos/horario_valido.hor --salida reportes
+python -m codigo.main "doc de prueba/conjunto1_valido_base.hor" --salida reportes
 ```
 
 La orden genera `horario_semanal.html`, `carga_catedraticos.html`,
@@ -17,13 +17,13 @@ La orden genera `horario_semanal.html`, `carga_catedraticos.html`,
 `reportes/`. Para abrir la GUI:
 
 ```powershell
-python -m Proyecto1.main --gui
+python -m codigo.main --gui
 ```
 
 También se puede cargar un archivo al iniciar:
 
 ```powershell
-python -m Proyecto1.main Proyecto1/ejemplos/horario_valido.hor --gui
+python -m codigo.main "doc de prueba/conjunto1_valido_base.hor" --gui
 ```
 
 ## Pruebas
@@ -34,11 +34,11 @@ python -m unittest discover -s tests -v
 
 ## Estructura
 
-- `Proyecto1/lexer.py`: AFD manual, tokens, posiciones y recuperación de errores.
-- `Proyecto1/parser.py` y `Proyecto1/model.py`: lectura estructural y modelo académico.
-- `Proyecto1/reports.py`: los tres reportes requeridos, errores y Graphviz DOT.
-- `Proyecto1/gui.py`: interfaz Tkinter con tablas de tokens/errores y accesos a reportes.
-- `Proyecto1/ejemplos/`: entradas `.hor` listas para ejecutar.
+- `codigo/lexer.py`: AFD manual, tokens, posiciones y recuperación de errores.
+- `codigo/parser.py` y `codigo/model.py`: lectura estructural y modelo académico.
+- `codigo/reports.py`: los reportes requeridos, errores y Graphviz DOT.
+- `codigo/gui.py`: interfaz Tkinter con tablas de tokens/errores y accesos a reportes.
+- `doc de prueba/`: entradas `.hor` listas para ejecutar.
 - `docs/`: manual técnico, manual de usuario y casos de prueba.
 
 La tokenización no usa `re`, `split` ni `find`; las transiciones principales

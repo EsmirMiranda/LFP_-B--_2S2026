@@ -15,7 +15,7 @@ def ejecutar_cli(ruta: str, salida: str) -> int:
     print(f"Reportes generados en: {Path(salida).resolve()}")
     for nombre, archivo in resultado.reportes.items():
         print(f"  - {nombre}: {archivo.name}")
-    return 0 if not resultado.errores_lexicos else 1
+    return 0 if not resultado.errores_lexicos and not resultado.errores_sintacticos else 1
 
 
 def main() -> int:
@@ -33,4 +33,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

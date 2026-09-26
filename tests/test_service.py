@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from Proyecto1.service import analizar_fuente
+from codigo.service import analizar_fuente
 
 
 class ServicioAnalisisTest(unittest.TestCase):
@@ -16,4 +16,3 @@ class ServicioAnalisisTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

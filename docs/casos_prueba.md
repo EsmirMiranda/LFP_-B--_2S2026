@@ -1,7 +1,7 @@
 # Casos de prueba
 
 Los casos se ejecutan con `python -m unittest discover -s tests -v` y con el
-ejemplo válido de `Proyecto1/ejemplos/`.
+ejemplo válido de `doc de prueba/`.
 
 | # | Entrada | Resultado esperado | Resultado obtenido |
 |---|---|---|---|
@@ -16,4 +16,3 @@ ejemplo válido de `Proyecto1/ejemplos/`.
 
 El caso válido además verifica las posiciones de línea/columna, comentarios
 con caracteres especiales y generación de `horario.dot`.
-
