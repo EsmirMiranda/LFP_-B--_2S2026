@@ -1,0 +1,48 @@
+## Horario con Choques de Horario - Prueba de Deteccion de Conflictos
+HORARIO {
+    CURSOS {
+        curso: "Lenguajes Formales y de Programacion" [codigo: "LFP-0796", creditos: 4],
+        curso: "Bases de Datos 2" [codigo: "BD2-0812", creditos: 5],
+        curso: "Redes de Computadoras" [codigo: "RED-0900", creditos: 4],
+        curso: "Sistemas Operativos 1" [codigo: "SO1-0710", creditos: 5],
+        curso: "Programacion Orientada a Objetos 2" [codigo: "POO-0330", creditos: 3],
+        curso: "Algoritmos y Estructuras de Datos" [codigo: "ALG-0150", creditos: 4],
+        curso: "Etica Profesional" [codigo: "ETP-0210", creditos: 2],
+    };
+    CATEDRATICOS {
+        catedratico: "Otto Rodriguez" [codigo: "DOC-001", categoria: TITULAR],
+        catedratico: "Vivian Campos" [codigo: "DOC-002", categoria: INTERINO],
+        catedratico: "Ana Lucia Paredes" [codigo: "DOC-006", categoria: AUXILIAR],
+        catedratico: "Karla Xitumul" [codigo: "DOC-004", categoria: TITULAR],
+        catedratico: "Hector Ixchop" [codigo: "DOC-005", categoria: AUXILIAR],
+    };
+    AULAS {
+        aula: "A-101" [capacidad: 40, edificio: "T-3"],
+        aula: "LAB-3" [capacidad: 25, edificio: "T-5"],
+        aula: "C-301" [capacidad: 30, edificio: "T-2"],
+        aula: "LAB-5" [capacidad: 20, edificio: "T-4"],
+    };
+    ## Bloque de clases: choque de catedratico, choque de aula, choque combinado,
+    ## un caso limite sin choque (bloques consecutivos) y bloques adicionales
+    ## sin conflicto para completar la semana
+    CLASES {
+        clase: "LFP-0796" con "DOC-001" en "A-101" [dia: LUNES, inicio: 07:00, fin: 08:40, seccion: "N"],
+        clase: "BD2-0812" con "DOC-001" en "LAB-3" [dia: LUNES, inicio: 07:00, fin: 08:40, seccion: "A"],
+        clase: "RED-0900" con "DOC-002" en "A-101" [dia: LUNES, inicio: 07:00, fin: 08:40, seccion: "B"],
+        clase: "SO1-0710" con "DOC-002" en "LAB-3" [dia: MARTES, inicio: 08:40, fin: 10:20, seccion: "A"],
+        clase: "POO-0330" con "DOC-002" en "LAB-3" [dia: MARTES, inicio: 10:20, fin: 12:00, seccion: "B"],
+        clase: "LFP-0796" con "DOC-006" en "A-101" [dia: MIERCOLES, inicio: 14:00, fin: 15:40, seccion: "N"],
+        clase: "BD2-0812" con "DOC-006" en "A-101" [dia: MIERCOLES, inicio: 15:00, fin: 16:40, seccion: "A"],
+        clase: "RED-0900" con "DOC-001" en "LAB-3" [dia: JUEVES, inicio: 16:00, fin: 17:40, seccion: "B"],
+        clase: "ETP-0210" con "DOC-004" en "LAB-5" [dia: JUEVES, inicio: 08:00, fin: 09:40, seccion: "N"],
+        clase: "POO-0330" con "DOC-005" en "C-301" [dia: JUEVES, inicio: 14:00, fin: 15:40, seccion: "B"],
+        clase: "ALG-0150" con "DOC-004" en "C-301" [dia: VIERNES, inicio: 06:00, fin: 07:40, seccion: "A"],
+        clase: "ETP-0210" con "DOC-005" en "LAB-5" [dia: VIERNES, inicio: 08:00, fin: 09:40, seccion: "B"],
+        clase: "LFP-0796" con "DOC-001" en "C-301" [dia: VIERNES, inicio: 14:00, fin: 15:40, seccion: "N"],
+        clase: "BD2-0812" con "DOC-006" en "LAB-5" [dia: VIERNES, inicio: 16:00, fin: 17:40, seccion: "B"],
+        clase: "BD2-0812" con "DOC-002" en "LAB-5" [dia: SABADO, inicio: 06:00, fin: 07:40, seccion: "A"],
+        clase: "RED-0900" con "DOC-004" en "A-101" [dia: SABADO, inicio: 08:00, fin: 09:40, seccion: "B"],
+        clase: "SO1-0710" con "DOC-005" en "LAB-3" [dia: SABADO, inicio: 14:00, fin: 15:40, seccion: "N"],
+        clase: "ALG-0150" con "DOC-001" en "LAB-3" [dia: SABADO, inicio: 16:00, fin: 17:40, seccion: "A"],
+    };
+};

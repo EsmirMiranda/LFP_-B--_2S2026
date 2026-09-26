@@ -1,0 +1,48 @@
+## Horario con Errores Lexicos - Prueba de Recuperacion en Modo Panico
+HORARIO {
+    CURSOS {
+        curso: "Compiladores 1" [codigo: "CMP-0601, creditos: 4],
+        curso: "Inteligencia Artificial" [codigo: "IA-0450", creditos: 4],
+        curso: "Etica Profesional" [codigo: "ETP-0210", creditos: 2],
+        curso: "Bases de Datos 1" [codigo: "BD1-0700", creditos: 5],
+        curso: "Redes Avanzadas" [codigo: "RED-0950", creditos: 4],
+        curso: "Programacion Orientada a Objetos 2" [codigo: "POO-0330", creditos: 3],
+    };
+    CATEDRATICOS {
+        catedratico: "Julia Marroquin" [codigo: "DOC004", categoria: TITULAR],
+        catedratico: "Hector Ixchop" [codigo: "DOC-005", categoria: AUXILIAR],
+        catedratico: "Ana Lucia Paredes" [codigo: "DOC-006", categoria: AUXILIAR],
+        catedratico: "Paola Miranda" [codigo: "DOC-008", categoria: TITULAR],
+        catedratico: "Luis Fernando Us" [codigo: "DOC-009", categoria: INTERINO],
+    };
+    AULAS {
+        aula: "C-301" [capacidad: 30@, edificio: "T-2"],
+        aula: "LAB-5" [capacidad: 20, edificio: "T-4"],
+        aula: "D-102" [capacidad: 45, edificio: "T-6"],
+        aula: "LAB-7" [capacidad: 22, edificio: "T-8"],
+        aula: "A-101" [capacidad: 40, edificio: "T-3"],
+    };
+    ## Bloque de clases: 3 bloques diarios sin traslapes, mas 2 clases con error
+    ## de dia y de hora insertadas fuera del patron de bloques
+    CLASES {
+        clase: "CMP-0601" con "DOC-005" en "C-301" [dia: LUNES, inicio: 06:00, fin: 07:40, seccion: "A"],
+        clase: "IA-0450" con "DOC-006" en "LAB-5" [dia: LUNES, inicio: 08:00, fin: 09:40, seccion: "B"],
+        clase: "ETP-0210" con "DOC-008" en "D-102" [dia: LUNES, inicio: 14:00, fin: 15:40, seccion: "N"],
+        clase: "BD1-0700" con "DOC-009" en "LAB-7" [dia: MARTES, inicio: 06:00, fin: 07:40, seccion: "A"],
+        clase: "RED-0950" con "DOC-005" en "A-101" [dia: MARTES, inicio: 08:00, fin: 09:40, seccion: "B"],
+        clase: "POO-0330" con "DOC-006" en "C-301" [dia: MARTES, inicio: 14:00, fin: 15:40, seccion: "N"],
+        clase: "IA-0450" con "DOC-008" en "LAB-5" [dia: DOMINGO, inicio: 09:00, fin: 10:40, seccion: "A"],
+        clase: "ETP-0210" con "DOC-009" en "D-102" [dia: MARTES, inicio: 22:15, fin: 23:00, seccion: "B"],
+        clase: "CMP-0601" con "DOC-005" en "LAB-7" [dia: JUEVES, inicio: 06:00, fin: 07:40, seccion: "N"],
+        clase: "IA-0450" con "DOC-006" en "A-101" [dia: JUEVES, inicio: 08:00, fin: 09:40, seccion: "A"],
+        clase: "ETP-0210" con "DOC-008" en "C-301" [dia: JUEVES, inicio: 14:00, fin: 15:40, seccion: "B"],
+        clase: "BD1-0700" con "DOC-009" en "LAB-5" [dia: VIERNES, inicio: 06:00, fin: 07:40, seccion: "N"],
+        clase: "RED-0950" con "DOC-005" en "D-102" [dia: VIERNES, inicio: 08:00, fin: 09:40, seccion: "A"],
+        clase: "POO-0330" con "DOC-006" en "LAB-7" [dia: VIERNES, inicio: 14:00, fin: 15:40, seccion: "B"],
+        clase: "BD1-0700" con "DOC-009" en "A-101" [dia: LUNES, inicio: 16:00, fin: 17:40, seccion: "N"],
+        clase: "RED-0950" con "DOC-005" en "LAB-7" [dia: MARTES, inicio: 16:00, fin: 17:40, seccion: "A"],
+        clase: "CMP-0601" con "DOC-008" en "A-101" [dia: SABADO, inicio: 06:00, fin: 07:40, seccion: "N"],
+        clase: "IA-0450" con "DOC-009" en "C-301" [dia: SABADO, inicio: 08:00, fin: 09:40, seccion: "A"],
+        clase: "ETP-0210" con "DOC-006" en "LAB-7" [dia: SABADO, inicio: 14:00, fin: 15:40, seccion: "B"],
+    };
+};
